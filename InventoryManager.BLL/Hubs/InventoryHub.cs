@@ -31,7 +31,6 @@ namespace InventoryManager.BLL.Hubs
 
         public async Task AddComment(Guid inventoryId, Guid accountId, string content)
         {
-
             var account = await _accountService.ReadEntityAsync(x => x.Id == accountId);
             var comment = await _commentService.CreateEntityAsync(new Comment()
             {

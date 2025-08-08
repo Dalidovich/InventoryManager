@@ -1,3 +1,4 @@
+using InventoryManager.BLL.Hubs;
 using InventoryManager.DAL;
 using InventoryManager.Domain.Enums;
 using InventoryManager.Midlaware;
@@ -16,6 +17,8 @@ namespace InventoryManager
             builder.AddHostedService();
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(
                 builder.Configuration.GetConnectionString(StandardConst.NameConnection)));
+
+            builder.Services.AddSignalR();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -47,6 +50,8 @@ namespace InventoryManager
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
+
+            app.MapHub<InventoryHub>("/InventoryHub");
 
             app.Run();
         }
