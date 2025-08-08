@@ -17,10 +17,10 @@ namespace InventoryManager.BLL.Services
             var valid = false;
             switch (objectField.Type)
             {
-                case Domain.Enums.ObjectFieldType.@int:
+                case ObjectFieldType.@int:
                     valid = int.TryParse(objectField.Content, out int intValue);
                     break;
-                case Domain.Enums.ObjectFieldType.@float:
+                case ObjectFieldType.@float:
                     valid = float.TryParse(objectField.Content, out float floatValue);
                     break;
                 default:
