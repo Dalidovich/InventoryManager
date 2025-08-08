@@ -17,6 +17,7 @@
         Forbiden = 403,
         Locked = 423,
         Conflict = 409,
+        UnsupportedMediaType = 415,
         InternalServerError = 500,
     }
 }

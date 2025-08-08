@@ -22,13 +22,12 @@ namespace InventoryManager.BLL.Services
         {
             var createEntity = await _repository.AddAsync(entity);
             await _repository.SaveAsync();
-            var response = new StandardResponse<TEntity>()
+
+            return new StandardResponse<TEntity>()
             {
                 Data = createEntity,
                 InnerStatusCode = InnerStatusCode.EntityCreate
-            };
-
-            return response;
+            }; ;
         }
 
         public async Task<BaseResponse<bool>> DeleteEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -45,13 +44,11 @@ namespace InventoryManager.BLL.Services
                 };
             }
 
-            var response = new StandardResponse<bool>()
+            return new StandardResponse<bool>()
             {
                 Data = await _repository.DeleteAsync(expression),
                 InnerStatusCode = InnerStatusCode.EntityDelete,
-            };
-
-            return response;
+            }; ;
 
         }
 
@@ -59,13 +56,11 @@ namespace InventoryManager.BLL.Services
         {
             var entities = await _repository.GetAllWhereAsync(expression);
 
-            var response = new StandardResponse<IEnumerable<TEntity>>()
+            return new StandardResponse<IEnumerable<TEntity>>()
             {
                 Data = entities,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            };
-
-            return response;
+            }; ;
         }
 
         public async Task<BaseResponse<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -79,26 +74,22 @@ namespace InventoryManager.BLL.Services
                 };
             }
 
-            var response = new StandardResponse<TEntity>()
+            return new StandardResponse<TEntity>()
             {
                 Data = entity,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            };
-
-            return response;
+            }; ;
         }
 
         public async Task<BaseResponse<IEnumerable<TEntity>>> ReadEntitiesAsync(Expression<Func<TEntity, bool>> expression)
         {
             var entities = await _repository.ReadAllWhereAsync(expression);
 
-            var response = new StandardResponse<IEnumerable<TEntity>>()
+            return new StandardResponse<IEnumerable<TEntity>>()
             {
                 Data = entities,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            };
-
-            return response;
+            }; ;
         }
 
         public async Task<BaseResponse<TEntity>> ReadEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -112,13 +103,11 @@ namespace InventoryManager.BLL.Services
                 };
             }
 
-            var response = new StandardResponse<TEntity>()
+            return new StandardResponse<TEntity>()
             {
                 Data = entity,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            };
-
-            return response;
+            }; ;
         }
 
         public async Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty)
@@ -141,13 +130,11 @@ namespace InventoryManager.BLL.Services
 
             var updatedRow = await _repository.UpdateAsync(combinedWhere, combinedSetProperty);
 
-            var response = new StandardResponse<int>()
+            return new StandardResponse<int>()
             {
                 Data = updatedRow,
                 InnerStatusCode = updatedRow != 0 ? InnerStatusCode.EntityUpdate : InnerStatusCode.Conflict,
-            };
-
-            return response;
+            }; ;
         }
     }
 }

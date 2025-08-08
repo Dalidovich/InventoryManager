@@ -34,6 +34,8 @@ namespace InventoryManager.Extension
                             return new ForbidResult();
                         case InnerStatusCode.Conflict:
                             return new ConflictResult();
+                        case InnerStatusCode.UnsupportedMediaType:
+                            return new UnsupportedMediaTypeResult();
                         case InnerStatusCode.Locked:
                             return new StatusCodeResult((int)InnerStatusCode.Locked);
                         default:
