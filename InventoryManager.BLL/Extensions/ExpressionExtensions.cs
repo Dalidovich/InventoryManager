@@ -1,9 +1,10 @@
 ﻿namespace InventoryManager.Extension
 {
+    using Microsoft.EntityFrameworkCore.Query;
     using System;
     using System.Linq.Expressions;
 
-    public static class ExpressionExtensions
+    public static partial class ExpressionExtensions
     {
         public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
@@ -18,24 +19,17 @@
             return Expression.Lambda<Func<T, bool>>(
                 Expression.AndAlso(left, right), parameter);
         }
-
-        private class ReplaceExpressionVisitor : ExpressionVisitor
+        public static Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> And<T>(this Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> expr1, Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> expr2)
         {
-            private readonly Expression _oldValue;
-            private readonly Expression _newValue;
+            var parameter = Expression.Parameter(typeof(T), "x");
 
-            public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
-            {
-                _oldValue = oldValue;
-                _newValue = newValue;
-            }
+            var leftVisitor = new ReplaceExpressionVisitor(expr1.Parameters[0], parameter);
+            var left = leftVisitor.Visit(expr1.Body);
 
-            public override Expression Visit(Expression node)
-            {
-                if (node == _oldValue)
-                    return _newValue;
-                return base.Visit(node);
-            }
+            var rightVisitor = new ReplaceExpressionVisitor(expr2.Parameters[0], parameter);
+            var right = rightVisitor.Visit(expr2.Body);
+            return Expression.Lambda<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>>(
+                Expression.AndAlso(left, right), parameter);
         }
     }
 }

@@ -134,9 +134,12 @@ namespace InventoryManager.BLL.Services
             }
 
             Expression<Func<TEntity, bool>> checkPositiveBlock = a => a.Timestamp == entities.Timestamp;
-            Expression<Func<TEntity, bool>> combined = whereExpression.And(checkPositiveBlock);
+            Expression<Func<TEntity, bool>> combinedWhere = whereExpression.And(checkPositiveBlock);
 
-            var updatedRow = await _repository.UpdateAsync(combined, setProperty);
+            Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> updateTimestamp = a => a.SetProperty(x => x.Timestamp, DateTime.UtcNow);
+            Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> combinedSetProperty = setProperty.And(updateTimestamp);
+
+            var updatedRow = await _repository.UpdateAsync(combinedWhere, combinedSetProperty);
 
             var response = new StandardResponse<int>()
             {

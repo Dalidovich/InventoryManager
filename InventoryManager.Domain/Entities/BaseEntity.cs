@@ -9,6 +9,7 @@
         public BaseEntity()
         {
             CreatedAt = DateTime.UtcNow;
+            Timestamp = DateTime.UtcNow;
         }
     }
 }
