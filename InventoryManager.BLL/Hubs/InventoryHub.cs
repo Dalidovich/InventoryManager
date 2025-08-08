@@ -23,7 +23,7 @@ namespace InventoryManager.BLL.Hubs
             await Clients.Group(inventoryId.ToString()).RecieveMessage(Context.ConnectionId, $"{accountId} connected to inventory {inventoryId}");
         }
 
-        public async Task RemoveFromPresentation(Guid inventoryId, Guid accountId)
+        public async Task RemoveFromInventory(Guid inventoryId, Guid accountId)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, inventoryId.ToString());
             await Clients.Group(inventoryId.ToString()).RecieveMessage(Context.ConnectionId, $"{accountId} remove on inventory {inventoryId}");
