@@ -33,7 +33,7 @@ namespace InventoryManager
 
         public static void AddServices(this WebApplicationBuilder webApplicationBuilder)
         {
-            webApplicationBuilder.Services.AddScoped<IService<AccessAccountToInventory>, BaseService<AccessAccountToInventory>>();
+            webApplicationBuilder.Services.AddScoped<IAccessAccountToInventoryService, AccessAccountToInventoryService>();
             webApplicationBuilder.Services.AddScoped<IService<Account>, BaseService<Account>>();
             webApplicationBuilder.Services.AddScoped<IService<Comment>, BaseService<Comment>>();
             webApplicationBuilder.Services.AddScoped<IService<Inventory>, BaseService<Inventory>>();
