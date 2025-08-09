@@ -1,6 +1,5 @@
 using InventoryManager.BLL.DTO;
 using InventoryManager.BLL.Interfaces;
-using InventoryManager.Domain.Enums;
 using InventoryManager.Extension;
 using Microsoft.AspNetCore.Mvc;
 
