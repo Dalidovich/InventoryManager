@@ -49,7 +49,7 @@ namespace InventoryManager.Controllers
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromQuery] AccountStatus newStatus)
         {
-            var resourse = await _accountService.UpdateEntityAsync(x=>x.Id==id,x=>x.SetProperty(x=>x.Status, newStatus));
+            var resourse = await _accountService.UpdateEntityAsync(x => x.Id == id, x => x.SetProperty(x => x.Status, newStatus));
 
             return resourse.ToActionResult();
         }

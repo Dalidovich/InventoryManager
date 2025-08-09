@@ -4,6 +4,6 @@
     {
         public const string AccountId = "Id";
         public const string AccountLogin = "Login";
-        public const string Status= "Status";
+        public const string Status = "Status";
     }
 }
