@@ -22,7 +22,7 @@ namespace InventoryManager.Extension
                 case 5:
                     return new OkObjectResult(resource);
                 case 6:
-                    return new CreatedResult("", resource);
+                    return new AcceptedResult("", resource);
                 default:
                     switch (resource.InnerStatusCode)
                     {

@@ -13,6 +13,7 @@
         AccountAuthenticate = 60,
 
         OK = 200,
+        Accepted = 202,
         OKNoContent = 204,
         Forbiden = 403,
         Locked = 423,

@@ -1,5 +1,6 @@
 using InventoryManager.BLL.DTO;
 using InventoryManager.BLL.Interfaces;
+using InventoryManager.Domain.Enums;
 using InventoryManager.Extension;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace InventoryManager.Controllers
     public class RegistrationController : ControllerBase
     {
         private readonly IRegistrationService _registrationService;
+        private readonly ITokenService _tokenService;
 
-        public RegistrationController(IRegistrationService registrationService)
+        public RegistrationController(IRegistrationService registrationService, ITokenService tokenService)
         {
             _registrationService = registrationService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("authenticate")]
@@ -32,6 +35,14 @@ namespace InventoryManager.Controllers
         public async Task<IActionResult> Registration([FromBody] AccountDTO accountDTO)
         {
             var resourse = await _registrationService.Registration(accountDTO);
+
+            return resourse.ToActionResult();
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromQuery] Guid accountId, [FromQuery] string refreshToken)
+        {
+            var resourse = await _tokenService.RefreshJWTToken(accountId, refreshToken);
 
             return resourse.ToActionResult();
         }
