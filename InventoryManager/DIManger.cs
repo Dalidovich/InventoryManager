@@ -1,8 +1,10 @@
-﻿using InventoryManager.BLL.Interfaces;
+﻿using InventoryManager.AuthPolicy;
+using InventoryManager.BLL.Interfaces;
 using InventoryManager.BLL.Services;
 using InventoryManager.DAL.Repositories.Implements;
 using InventoryManager.DAL.Repositories.Interfaces;
 using InventoryManager.Domain.Entities;
+using InventoryManager.Domain.Enums;
 using InventoryManager.Domain.JWT;
 using InventoryManager.HostedServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,6 +46,20 @@ namespace InventoryManager
 
             webApplicationBuilder.Services.AddScoped<IRegistrationService, RegistrationService>();
             webApplicationBuilder.Services.AddScoped<ITokenService, TokenService>();
+        }
+
+        public static void AddAuthPolicy(this WebApplicationBuilder webApplicationBuilder)
+        {
+            webApplicationBuilder.Services.AddAuthorization(options =>
+             {
+                 options.AddPolicy(AuthPolicyName.ActiveStatusPolicyRequire, policy =>
+                     policy.RequireAssertion(context =>
+                         context.User.HasClaim(c =>
+                             c.Type == CustomClaimType.Status &&
+                             c.Value == ((int)AccountStatus.Active).ToString()
+                         )
+                     ));
+             });
         }
 
         public static void AddHostedService(this WebApplicationBuilder webApplicationBuilder)

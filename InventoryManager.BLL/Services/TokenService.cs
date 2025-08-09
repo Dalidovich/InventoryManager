@@ -32,8 +32,10 @@ namespace InventoryManager.BLL.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(CustomClaimType.AccountId, client.Id.ToString()),
-                new Claim(CustomClaimType.AccountEmail, client.Email),
-                new Claim(CustomClaimType.AccountLogin, client.Login)
+                new Claim(CustomClaimType.AccountLogin, client.Login),
+                new Claim(ClaimTypes.Role, ((int)client.Role).ToString()),
+                new Claim(ClaimTypes.Email, client.Email),
+                new Claim(CustomClaimType.Status, ((int)client.Status).ToString()),
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));

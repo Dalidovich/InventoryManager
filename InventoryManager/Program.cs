@@ -15,6 +15,7 @@ namespace InventoryManager
             builder.AddRepositores();
             builder.AddServices();
             builder.AddHostedService();
+            builder.AddAuthPolicy();
             builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(
                 builder.Configuration.GetConnectionString(StandardConst.NameConnection)));
 
