@@ -6,7 +6,7 @@ using InventoryManager.Domain.InnerResponse;
 
 namespace InventoryManager.BLL.Services
 {
-    internal class ObjectFieldService : BaseService<ObjectField>, IObjectFieldService
+    public class ObjectFieldService : BaseService<ObjectField>, IObjectFieldService
     {
         public ObjectFieldService(IRepository<ObjectField> repository) : base(repository)
         {

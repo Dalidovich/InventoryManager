@@ -26,6 +26,8 @@ namespace InventoryManager.Extension
                 default:
                     switch (resource.InnerStatusCode)
                     {
+                        case InnerStatusCode.Unauthorized:
+                            return new UnauthorizedResult();
                         case InnerStatusCode.OK:
                             return new OkObjectResult(resource);
                         case InnerStatusCode.OKNoContent:

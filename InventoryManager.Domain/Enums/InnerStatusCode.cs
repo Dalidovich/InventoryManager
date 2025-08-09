@@ -18,6 +18,7 @@
         Locked = 423,
         Conflict = 409,
         UnsupportedMediaType = 415,
+        Unauthorized = 401,
         InternalServerError = 500,
     }
 }

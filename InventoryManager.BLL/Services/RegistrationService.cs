@@ -25,7 +25,7 @@ namespace InventoryManager.BLL.Services
             {
                 return new StandardResponse<AuthDTO>()
                 {
-                    Message = "Client with that Email alredy exist",
+                    Message = "Client with that login alredy exist",
                     InnerStatusCode = InnerStatusCode.EntityExist,
                 };
             }
@@ -34,10 +34,12 @@ namespace InventoryManager.BLL.Services
             var newClients = DTO.CreateEntity(Convert.ToBase64String(passwordSalt), Convert.ToBase64String(passwordHash));
             newClients = (await _accountService.CreateEntityAsync(newClients)).Data;
 
+            var authenticate = await Authenticate(DTO);
+
             return new StandardResponse<AuthDTO>()
             {
-                Data = (await Authenticate(DTO)).Data,
-                InnerStatusCode = InnerStatusCode.EntityCreate,
+                Data = authenticate.Data,
+                InnerStatusCode = authenticate.InnerStatusCode,
             };
         }
 
@@ -49,7 +51,7 @@ namespace InventoryManager.BLL.Services
             {
                 return new StandardResponse<AuthDTO>()
                 {
-                    InnerStatusCode = InnerStatusCode.EntityNotFound
+                    InnerStatusCode = InnerStatusCode.Unauthorized,
                 };
             }
 
