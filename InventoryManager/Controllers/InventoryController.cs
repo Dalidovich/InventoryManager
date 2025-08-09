@@ -25,7 +25,7 @@ namespace InventoryManager.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid inventoryId)
         {
-            var resourse = await _inventoryService.ReadEntitiesAsync(x => x.CreatorId == accountId);
+            var resourse = await _inventoryService.ReadEntityAsync(x => x.Id == inventoryId);
 
             return resourse.ToActionResult();
         }
