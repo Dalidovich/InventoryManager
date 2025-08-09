@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -66,7 +67,7 @@ namespace InventoryManager.DAL.Migrations
                     img_url = table.Column<string>(type: "character varying", nullable: false),
                     create_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AttachedEntityId = table.Column<Guid>(type: "uuid", nullable: false),
+                    fk_category_id = table.Column<Guid>(type: "uuid", nullable: false),
                     fk_creator_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -79,8 +80,8 @@ namespace InventoryManager.DAL.Migrations
                         principalColumn: "pk_account_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_inventory_inventory_category_AttachedEntityId",
-                        column: x => x.AttachedEntityId,
+                        name: "FK_inventory_inventory_category_fk_category_id",
+                        column: x => x.fk_category_id,
                         principalTable: "inventory_category",
                         principalColumn: "pk_inventory_category_id",
                         onDelete: ReferentialAction.Cascade);
@@ -92,8 +93,8 @@ namespace InventoryManager.DAL.Migrations
                 {
                     pk_slave_account_id = table.Column<Guid>(type: "uuid", nullable: false),
                     pk_inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    create_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     fk_master_account_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -128,7 +129,7 @@ namespace InventoryManager.DAL.Migrations
                     create_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     fk_inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    fk_creator_id = table.Column<string>(type: "character varying", nullable: false)
+                    fk_creator_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,7 +153,7 @@ namespace InventoryManager.DAL.Migrations
                 columns: table => new
                 {
                     pk_inventory_object_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    login = table.Column<string>(type: "character varying", nullable: false),
+                    title = table.Column<string>(type: "character varying", nullable: false),
                     sequence_id = table.Column<short>(type: "smallint", nullable: false),
                     is_template = table.Column<bool>(type: "boolean", nullable: false),
                     create_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -235,11 +236,11 @@ namespace InventoryManager.DAL.Migrations
                 columns: table => new
                 {
                     pk_tag_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    content = table.Column<string>(type: "character varying", nullable: false),
+                    title = table.Column<string>(type: "character varying", nullable: false),
                     create_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     fk_inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    fk_creator_id = table.Column<string>(type: "character varying", nullable: false)
+                    fk_creator_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,9 +280,9 @@ namespace InventoryManager.DAL.Migrations
                 column: "fk_inventory_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_inventory_AttachedEntityId",
+                name: "IX_inventory_fk_category_id",
                 table: "inventory",
-                column: "AttachedEntityId");
+                column: "fk_category_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_inventory_fk_creator_id",

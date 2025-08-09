@@ -34,7 +34,7 @@ namespace InventoryManager.DAL.Configuration
                    .HasColumnName("fk_inventory_id");
 
             builder.Property(e => e.CreatorId)
-                   .HasColumnType(EntityDataTypes.Character_varying)
+                   .HasColumnType(EntityDataTypes.Guid)
                    .HasColumnName("fk_creator_id");
 
             builder.HasOne(x => x.Author)

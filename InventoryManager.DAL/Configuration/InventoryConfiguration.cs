@@ -45,6 +45,10 @@ namespace InventoryManager.DAL.Configuration
                    .HasColumnType(EntityDataTypes.Character_varying)
                    .HasColumnName("img_url");
 
+            builder.Property(e => e.AttachedEntityId)
+                   .HasColumnType(EntityDataTypes.Guid)
+                   .HasColumnName("fk_category_id");
+
             builder.HasOne(e => e.Creator)
                 .WithMany()
                 .HasForeignKey(e => e.CreatorId)

@@ -19,6 +19,12 @@ namespace InventoryManager.DAL.Configuration
                   .HasColumnType(EntityDataTypes.Guid)
                   .HasColumnName("pk_slave_account_id");
 
+            builder.Property(e => e.CreatedAt)
+                  .HasColumnName("create_at");
+
+            builder.Property(e => e.Timestamp)
+                  .HasColumnName("timestamp");
+
             builder.Property(e => e.AttachedEntityId)
                   .HasColumnType(EntityDataTypes.Guid)
                   .HasColumnName("pk_inventory_id");

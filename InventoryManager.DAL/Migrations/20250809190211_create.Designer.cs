@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InventoryManager.DAL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250808165233_create")]
+    [Migration("20250809190211_create")]
     partial class create
     {
         /// <inheritdoc />
@@ -39,14 +39,16 @@ namespace InventoryManager.DAL.Migrations
                         .HasColumnName("pk_inventory_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("create_at");
 
                     b.Property<Guid>("CreatorId")
                         .HasColumnType("uuid")
                         .HasColumnName("fk_master_account_id");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("timestamp");
 
                     b.HasKey("Id", "AttachedEntityId");
 
@@ -128,9 +130,8 @@ namespace InventoryManager.DAL.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("create_at");
 
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("character varying")
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid")
                         .HasColumnName("fk_creator_id");
 
                     b.Property<DateTime>("Timestamp")
@@ -154,7 +155,8 @@ namespace InventoryManager.DAL.Migrations
                         .HasColumnName("pk_inventory_id");
 
                     b.Property<Guid>("AttachedEntityId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("fk_category_id");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
@@ -255,7 +257,7 @@ namespace InventoryManager.DAL.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("character varying")
-                        .HasColumnName("login");
+                        .HasColumnName("title");
 
                     b.HasKey("Id");
 
@@ -364,9 +366,8 @@ namespace InventoryManager.DAL.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("create_at");
 
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("character varying")
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid")
                         .HasColumnName("fk_creator_id");
 
                     b.Property<DateTime>("Timestamp")
@@ -376,7 +377,7 @@ namespace InventoryManager.DAL.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("character varying")
-                        .HasColumnName("content");
+                        .HasColumnName("title");
 
                     b.HasKey("Id");
 

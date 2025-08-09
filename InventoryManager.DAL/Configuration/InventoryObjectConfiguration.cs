@@ -27,7 +27,7 @@ namespace InventoryManager.DAL.Configuration
 
             builder.Property(e => e.Title)
                    .HasColumnType(EntityDataTypes.Character_varying)
-                   .HasColumnName("login");
+                   .HasColumnName("title");
 
             builder.Property(e => e.CreatorId)
                    .HasColumnType(EntityDataTypes.Guid)

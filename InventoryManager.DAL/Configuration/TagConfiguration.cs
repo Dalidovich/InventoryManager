@@ -27,14 +27,14 @@ namespace InventoryManager.DAL.Configuration
 
             builder.Property(e => e.Title)
                    .HasColumnType(EntityDataTypes.Character_varying)
-                   .HasColumnName("content");
+                   .HasColumnName("title");
 
             builder.Property(e => e.AttachedEntityId)
                    .HasColumnType(EntityDataTypes.Guid)
                    .HasColumnName("fk_inventory_id");
 
             builder.Property(e => e.CreatorId)
-                   .HasColumnType(EntityDataTypes.Character_varying)
+                   .HasColumnType(EntityDataTypes.Guid)
                    .HasColumnName("fk_creator_id");
         }
     }
