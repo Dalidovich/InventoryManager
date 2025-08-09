@@ -65,6 +65,7 @@ namespace InventoryManager
         public static void AddHostedService(this WebApplicationBuilder webApplicationBuilder)
         {
             webApplicationBuilder.Services.AddHostedService<CheckDBHostedService>();
+            webApplicationBuilder.Services.AddHostedService<EnterSeedDataHostedService>();
         }
 
         public static void AddJWT(this WebApplicationBuilder webApplicationBuilder)
