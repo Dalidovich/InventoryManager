@@ -18,5 +18,18 @@ namespace InventoryManager.BLL.Extensions
                 Status = AccountStatus.Active,
             };
         }
+
+        public static Inventory CreateEntity(this InventoryDTO dto)
+        {
+            return new Inventory()
+            {
+                AttachedEntityId = dto.CategoryId,
+                CreatorId = dto.CategoryId,
+                State = InventoryState.@private,
+                Description = dto.Description,
+                ImgURL = dto.ImgURL,
+                Title = dto.Title,
+            };
+        }
     }
 }

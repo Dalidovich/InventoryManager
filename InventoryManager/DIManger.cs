@@ -36,7 +36,7 @@ namespace InventoryManager
             webApplicationBuilder.Services.AddScoped<IAccessAccountToInventoryService, AccessAccountToInventoryService>();
             webApplicationBuilder.Services.AddScoped<IService<Account>, BaseService<Account>>();
             webApplicationBuilder.Services.AddScoped<IService<Comment>, BaseService<Comment>>();
-            webApplicationBuilder.Services.AddScoped<IService<Inventory>, BaseService<Inventory>>();
+            webApplicationBuilder.Services.AddScoped<IInventoryService, InventoryService>();
             webApplicationBuilder.Services.AddScoped<IService<InventoryCategory>, BaseService<InventoryCategory>>();
             webApplicationBuilder.Services.AddScoped<IService<InventoryObject>, BaseService<InventoryObject>>();
             webApplicationBuilder.Services.AddScoped<IService<Like>, BaseService<Like>>();
