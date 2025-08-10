@@ -29,13 +29,12 @@ namespace InventoryManager.BLL.Services
             }
             if (creator.Role == AccountRole.Admin)
             {
-                var access = await _repository.AddAsync(accessAccountToInventory);
-                await _repository.SaveAsync();
+                var access = await CreateEntityAsync(accessAccountToInventory);
 
                 return new StandardResponse<AccessAccountToInventory>()
                 {
-                    Data = access,
-                    InnerStatusCode = InnerStatusCode.EntityCreate
+                    Data = access.Data,
+                    InnerStatusCode = access.InnerStatusCode
                 };
             }
             else
@@ -50,13 +49,12 @@ namespace InventoryManager.BLL.Services
                     };
                 }
 
-                var access = await _repository.AddAsync(accessAccountToInventory);
-                await _repository.SaveAsync();
+                var access = await CreateEntityAsync(accessAccountToInventory);
 
                 return new StandardResponse<AccessAccountToInventory>()
                 {
-                    Data = access,
-                    InnerStatusCode = InnerStatusCode.EntityCreate
+                    Data = access.Data,
+                    InnerStatusCode = access.InnerStatusCode
                 };
             }
         }
@@ -72,12 +70,12 @@ namespace InventoryManager.BLL.Services
                     InnerStatusCode = InnerStatusCode.EntityNotFound
                 };
             }
-            var deleted = await _repository.DeleteAsync(x => x.Id == id && (x.Inventory.CreatorId == creator.Id || creator.Role == AccountRole.Admin));
+            var deleted = await DeleteEntityAsync(x => x.Id == id && (x.Inventory.CreatorId == creator.Id || creator.Role == AccountRole.Admin));
 
             return new StandardResponse<bool>()
             {
-                Data = deleted,
-                InnerStatusCode = deleted ? InnerStatusCode.EntityDelete : InnerStatusCode.Forbiden
+                Data = deleted.Data,
+                InnerStatusCode = deleted.Data ? InnerStatusCode.EntityDelete : InnerStatusCode.Forbiden
             };
         }
     }

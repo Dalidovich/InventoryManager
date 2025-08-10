@@ -8,16 +8,16 @@ namespace InventoryManager.BLL.Services
 {
     public class InventoryService : BaseService<Inventory>, IInventoryService
     {
-        private readonly IRepository<Account> _accountRepository;
+        private readonly IPrivacyCheckerService _privacyCheckerService;
 
-        public InventoryService(IRepository<Inventory> repository, IRepository<Account> accountRepository) : base(repository)
+        public InventoryService(IRepository<Inventory> repository, IPrivacyCheckerService privacyCheckerService) : base(repository)
         {
-            _accountRepository = accountRepository;
+            _privacyCheckerService = privacyCheckerService;
         }
 
         public async Task<BaseResponse<bool>> DeleteInventory(Guid inventoryId, Guid accountId)
         {
-            var privacyCheck = await PrivacyCheck(inventoryId, accountId);
+            var privacyCheck = await _privacyCheckerService.PrivacyCheckInventory(inventoryId, accountId);
             if (privacyCheck.InnerStatusCode == InnerStatusCode.AccountAuthenticate)
             {
                 var deleted = await DeleteEntityAsync(x => x.Id == inventoryId);
@@ -33,15 +33,15 @@ namespace InventoryManager.BLL.Services
 
         public async Task<BaseResponse<Inventory>> UpdateInventoryState(Guid inventoryId, Guid accountId, InventoryState newInventoryState)
         {
-            var privacyCheck = await PrivacyCheck(inventoryId, accountId);
+            var privacyCheck = await _privacyCheckerService.PrivacyCheckInventory(inventoryId, accountId);
             if (privacyCheck.InnerStatusCode == InnerStatusCode.AccountAuthenticate)
             {
                 var updated = await UpdateEntityAsync(x => x.Id == inventoryId, x => x.SetProperty(e => e.State, newInventoryState));
-                var inventory = await _repository.ReadOneWhereAsync(x => x.Id == inventoryId);
+                var inventory = await ReadEntityAsync(x => x.Id == inventoryId);
 
                 return new StandardResponse<Inventory>()
                 {
-                    Data = inventory,
+                    Data = inventory.Data,
                     InnerStatusCode = updated.InnerStatusCode,
                 };
             }
@@ -49,35 +49,6 @@ namespace InventoryManager.BLL.Services
             return new StandardResponse<Inventory>()
             {
                 InnerStatusCode = privacyCheck.InnerStatusCode
-            };
-        }
-
-        private async Task<BaseResponse<bool>> PrivacyCheck(Guid inventoryId, Guid accountId)
-        {
-            var inventory = await _repository.ReadOneWhereAsync(x => x.Id == inventoryId);
-            var account = await _accountRepository.ReadOneWhereAsync(x => x.Id == accountId);
-            if (inventory == null || account == null)
-            {
-                return new StandardResponse<bool>()
-                {
-                    Data = false,
-                    InnerStatusCode = InnerStatusCode.EntityNotFound,
-                };
-            }
-
-            if (account.Role == AccountRole.Admin || inventory.CreatorId == accountId)
-            {
-                return new StandardResponse<bool>()
-                {
-                    Data = true,
-                    InnerStatusCode = InnerStatusCode.AccountAuthenticate,
-                };
-            }
-
-            return new StandardResponse<bool>()
-            {
-                Data = false,
-                InnerStatusCode = InnerStatusCode.Forbiden,
             };
         }
     }
