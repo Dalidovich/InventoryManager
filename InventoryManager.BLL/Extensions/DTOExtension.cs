@@ -31,5 +31,16 @@ namespace InventoryManager.BLL.Extensions
                 Title = dto.Title,
             };
         }
+
+        public static InventoryObject CreateEntity(this InventoryObjectDTO dto)
+        {
+            return new InventoryObject()
+            {
+                AttachedEntityId = dto.InventoryId,
+                CreatorId = dto.CreatorId,
+                Title = dto.Title,
+                IsTemplate = dto.IsTemplate
+            };
+        }
     }
 }

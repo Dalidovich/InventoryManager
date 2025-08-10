@@ -27,7 +27,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = createEntity,
                 InnerStatusCode = InnerStatusCode.EntityCreate
-            }; ;
+            };
         }
 
         public async Task<BaseResponse<bool>> DeleteEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -48,7 +48,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = await _repository.DeleteAsync(expression),
                 InnerStatusCode = InnerStatusCode.EntityDelete,
-            }; ;
+            };
 
         }
 
@@ -60,7 +60,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = entities,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            }; ;
+            };
         }
 
         public async Task<BaseResponse<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -78,7 +78,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = entity,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            }; ;
+            };
         }
 
         public async Task<BaseResponse<IEnumerable<TEntity>>> ReadEntitiesAsync(Expression<Func<TEntity, bool>> expression)
@@ -89,7 +89,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = entities,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            }; ;
+            };
         }
 
         public async Task<BaseResponse<TEntity>> ReadEntityAsync(Expression<Func<TEntity, bool>> expression)
@@ -107,7 +107,29 @@ namespace InventoryManager.BLL.Services
             {
                 Data = entity,
                 InnerStatusCode = InnerStatusCode.EntityRead,
-            }; ;
+            };
+        }
+
+        public async Task<BaseResponse<IEnumerable<TEntity>>> ReadOrderedEntitiesAsync<T>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, T>> orderExpression)
+        {
+            var entities = await _repository.ReadAllWhereOrderByAsync(whereExpression, orderExpression);
+
+            return new StandardResponse<IEnumerable<TEntity>>()
+            {
+                Data = entities,
+                InnerStatusCode = InnerStatusCode.EntityRead,
+            };
+        }
+
+        public async Task<BaseResponse<IEnumerable<TEntity>>> GetOrderedEntitiesAsync<T>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, T>> orderExpression)
+        {
+            var entities = await _repository.GetAllWhereOrderByAsync(whereExpression, orderExpression);
+
+            return new StandardResponse<IEnumerable<TEntity>>()
+            {
+                Data = entities,
+                InnerStatusCode = InnerStatusCode.EntityRead,
+            };
         }
 
         public async Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty)
@@ -134,7 +156,7 @@ namespace InventoryManager.BLL.Services
             {
                 Data = updatedRow,
                 InnerStatusCode = updatedRow != 0 ? InnerStatusCode.EntityUpdate : InnerStatusCode.Conflict,
-            }; ;
+            };
         }
     }
 }

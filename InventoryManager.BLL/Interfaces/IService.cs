@@ -13,5 +13,7 @@ namespace InventoryManager.BLL.Interfaces
         public Task<BaseResponse<IEnumerable<TEntity>>> GetEntitiesAsync(Expression<Func<TEntity, bool>> expression);
         public Task<BaseResponse<TEntity>> ReadEntityAsync(Expression<Func<TEntity, bool>> expression);
         public Task<BaseResponse<IEnumerable<TEntity>>> ReadEntitiesAsync(Expression<Func<TEntity, bool>> expression);
+        public Task<BaseResponse<IEnumerable<TEntity>>> ReadOrderedEntitiesAsync<T>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, T>> orderExpression);
+        public Task<BaseResponse<IEnumerable<TEntity>>> GetOrderedEntitiesAsync<T>(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, T>> orderExpression);
     }
 }

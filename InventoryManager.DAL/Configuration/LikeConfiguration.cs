@@ -31,7 +31,7 @@ namespace InventoryManager.DAL.Configuration
 
             builder.Property(e => e.AttachedEntityId)
                    .HasColumnType(EntityDataTypes.Guid)
-                   .HasColumnName("fk_inventory_id");
+                   .HasColumnName("fk_inventory_object_id");
         }
     }
 }

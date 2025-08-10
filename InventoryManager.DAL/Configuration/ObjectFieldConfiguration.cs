@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManager.DAL.Configuration
 {
-    public class ObjextFieldConfiguration : IEntityTypeConfiguration<ObjectField>
+    public class ObjectFieldConfiguration : IEntityTypeConfiguration<ObjectField>
     {
         public const string Table_name = "object_field";
 

@@ -7,7 +7,7 @@ namespace InventoryManager.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InventoryCategoryController
+    public class InventoryCategoryController : ControllerBase
     {
         private readonly IService<InventoryCategory> _inventoryCategoryService;
 
