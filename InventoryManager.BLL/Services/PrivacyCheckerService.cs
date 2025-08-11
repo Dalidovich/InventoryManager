@@ -4,7 +4,6 @@ using InventoryManager.DAL.Repositories.Interfaces;
 using InventoryManager.Domain.Entities;
 using InventoryManager.Domain.Enums;
 using InventoryManager.Domain.InnerResponse;
-using System.Security.Principal;
 
 namespace InventoryManager.BLL.Services
 {
@@ -21,7 +20,7 @@ namespace InventoryManager.BLL.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<BaseResponse<PrivacyCreatorResult>> IsCreator<TEntity,TAttach>(IRepository<TEntity> repo, Guid entityId, Guid accountId) where TEntity : AttachedToEntity<TAttach>
+        public async Task<BaseResponse<PrivacyCreatorResult>> IsCreator<TEntity, TAttach>(IRepository<TEntity> repo, Guid entityId, Guid accountId) where TEntity : AttachedToEntity<TAttach>
         {
             var entity = await repo.GetOneWhereAsync(x => x.Id == entityId);
             if (entity == null)
@@ -55,14 +54,14 @@ namespace InventoryManager.BLL.Services
             return new StandardResponse<bool>()
             {
                 Data = account.Role == AccountRole.Admin,
-                InnerStatusCode = account.Role == AccountRole.Admin?InnerStatusCode.AccountAuthenticate:InnerStatusCode.Forbiden,
+                InnerStatusCode = account.Role == AccountRole.Admin ? InnerStatusCode.AccountAuthenticate : InnerStatusCode.Forbiden,
             };
         }
 
         public async Task<BaseResponse<bool>> PrivacyCheckInventory(Guid inventoryId, Guid accountId)
         {
             var privacyAdmin = await IsAdmin(accountId);
-            var privacyCreator = await IsCreator<Inventory,InventoryCategory>(_inventoryRepository, inventoryId, accountId);
+            var privacyCreator = await IsCreator<Inventory, InventoryCategory>(_inventoryRepository, inventoryId, accountId);
 
             if (privacyAdmin.Data || privacyCreator.Data.Success)
             {

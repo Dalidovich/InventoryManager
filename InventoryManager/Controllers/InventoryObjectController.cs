@@ -48,9 +48,9 @@ namespace InventoryManager.Controllers
 
         [Authorize(Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{inventoryObjectId}")]
-        public async Task<IActionResult> DeleteInventoryObject([FromRoute] Guid inventoryObjectId, [FromQuery] Guid accountId, [FromQuery] string newTitle)
+        public async Task<IActionResult> UpdateInventoryObjectTitle([FromRoute] Guid inventoryObjectId, [FromQuery] Guid accountId, [FromQuery] string newTitle)
         {
-            var resourse = await _inventoryObjectService.DeleteInventoryObject(inventoryObjectId, accountId);
+            var resourse = await _inventoryObjectService.UpdateInventoryObjectTitle(inventoryObjectId, accountId, newTitle);
 
             return resourse.ToActionResult();
         }

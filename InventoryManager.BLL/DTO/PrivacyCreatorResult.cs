@@ -5,7 +5,7 @@
         public bool Success { get; set; }
         public Guid? AttachedId { get; set; }
 
-        public PrivacyCreatorResult(bool success, Guid? id = null) 
+        public PrivacyCreatorResult(bool success, Guid? id = null)
         {
             Success = success;
             AttachedId = id;
