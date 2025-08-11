@@ -38,11 +38,10 @@ namespace InventoryManager
             webApplicationBuilder.Services.AddScoped<IService<Comment>, BaseService<Comment>>();
             webApplicationBuilder.Services.AddScoped<IInventoryService, InventoryService>();
             webApplicationBuilder.Services.AddScoped<IService<InventoryCategory>, BaseService<InventoryCategory>>();
-            webApplicationBuilder.Services.AddScoped<IService<InventoryObject>, BaseService<InventoryObject>>();
-            webApplicationBuilder.Services.AddScoped<IService<Like>, BaseService<Like>>();
+            webApplicationBuilder.Services.AddScoped<IInventoryObjectService, InventoryObjectService>();
+            webApplicationBuilder.Services.AddScoped<ILikeService, LikeService>();
             webApplicationBuilder.Services.AddScoped<IObjectFieldService, ObjectFieldService>();
             webApplicationBuilder.Services.AddScoped<IService<Tag>, BaseService<Tag>>();
-            webApplicationBuilder.Services.AddScoped<IService<Account>, BaseService<Account>>();
 
             webApplicationBuilder.Services.AddScoped<IRegistrationService, RegistrationService>();
             webApplicationBuilder.Services.AddScoped<ITokenService, TokenService>();

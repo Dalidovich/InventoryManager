@@ -8,6 +8,8 @@ namespace InventoryManager.BLL.Services
 {
     public class ObjectFieldService : BaseService<ObjectField>, IObjectFieldService
     {
+        private readonly IPrivacyCheckerService _privacyCheckerService;
+
         public ObjectFieldService(IRepository<ObjectField> repository) : base(repository)
         {
         }
