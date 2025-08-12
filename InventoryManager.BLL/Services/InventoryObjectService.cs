@@ -21,9 +21,8 @@ namespace InventoryManager.BLL.Services
         {
             var lastSequenceId = (await ReadEntitiesAsync(x => x.AttachedEntityId == inventoryObjectDTO.InventoryId &&
                 !x.IsTemplate)).Data.Select(x => x.SequenceId).Max();
-            var newInventoryObject = inventoryObjectDTO.CreateEntity();
+            var newInventoryObject = inventoryObjectDTO.CreateEntity(lastSequenceId + 1);
 
-            newInventoryObject.SequenceId = lastSequenceId + 1;
 
             var inventoryObject = await CreateEntityAsync(newInventoryObject);
 

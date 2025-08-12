@@ -10,11 +10,12 @@ namespace InventoryManager.BLL.Services
     {
         private readonly IPrivacyCheckerService _privacyCheckerService;
 
-        public ObjectFieldService(IRepository<ObjectField> repository) : base(repository)
+        public ObjectFieldService(IRepository<ObjectField> repository, IPrivacyCheckerService privacyCheckerService) : base(repository)
         {
+            _privacyCheckerService = privacyCheckerService;
         }
 
-        public async Task<BaseResponse<ObjectField>> CreateObjectFieldAsync(ObjectField objectField)
+        private async Task<BaseResponse<bool>> DataTypeCheck(ObjectField objectField)
         {
             var valid = false;
             switch (objectField.Type)
@@ -29,23 +30,11 @@ namespace InventoryManager.BLL.Services
                     valid = true;
                     break;
             }
-            if (valid)
-            {
-                var newObjectFieldResponse = await CreateEntityAsync(objectField);
-                if (newObjectFieldResponse.InnerStatusCode == InnerStatusCode.EntityCreate)
-                {
-                    return new StandardResponse<ObjectField>()
-                    {
-                        Data = newObjectFieldResponse.Data,
-                        InnerStatusCode = newObjectFieldResponse.InnerStatusCode,
-                    };
-                }
-            }
 
-            return new StandardResponse<ObjectField>()
+            return new StandardResponse<bool>()
             {
-                Data = null,
-                InnerStatusCode = InnerStatusCode.UnsupportedMediaType
+                Data = valid,
+                InnerStatusCode = valid ? InnerStatusCode.OK : InnerStatusCode.UnsupportedMediaType
             };
         }
     }
