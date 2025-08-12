@@ -19,23 +19,44 @@ namespace InventoryManager.BLL.Services
 
         public async Task<BaseResponse<InventoryObject>> CreateInventoryObject(InventoryObjectDTO inventoryObjectDTO)
         {
-            var lastSequenceId = (await ReadEntitiesAsync(x => x.AttachedEntityId == inventoryObjectDTO.InventoryId &&
-                !x.IsTemplate)).Data.Select(x => x.SequenceId).Max();
-            var newInventoryObject = inventoryObjectDTO.CreateEntity(lastSequenceId + 1);
 
+            if (inventoryObjectDTO.IsTemplate)
+            {
+                var privacyCheckForMasterObject = await _privacyCheckerService.PrivacyCheckInventory(inventoryObjectDTO.InventoryId, inventoryObjectDTO.CreatorId);
+                if (privacyCheckForMasterObject.Data)
+                {
+                    return await CreateSolveInventoryObject(inventoryObjectDTO);
+                }
 
-            var inventoryObject = await CreateEntityAsync(newInventoryObject);
+                return new StandardResponse<InventoryObject>()
+                {
+                    InnerStatusCode = InnerStatusCode.Forbiden
+                };
+            }
 
+            var privacyCheckForImplement = await _privacyCheckerService.IsAccessToInventory(inventoryObjectDTO.InventoryId, inventoryObjectDTO.CreatorId);
+            if (privacyCheckForImplement.Data)
+            {
+                return await CreateSolveInventoryObject(inventoryObjectDTO);
+            }
             return new StandardResponse<InventoryObject>()
             {
-                Data = inventoryObject.Data,
-                InnerStatusCode = inventoryObject.InnerStatusCode
+                InnerStatusCode = InnerStatusCode.Forbiden
             };
+        }
+
+        private async Task<BaseResponse<InventoryObject>> CreateSolveInventoryObject(InventoryObjectDTO inventoryObjectDTO)
+        {
+            var lastSequenceId = (await ReadEntitiesAsync(x => x.AttachedEntityId == inventoryObjectDTO.InventoryId &&
+                    !x.IsTemplate)).Data.Select(x => x.SequenceId).Max();
+            var newInventoryObject = inventoryObjectDTO.CreateEntity(lastSequenceId + 1);
+
+            return await CreateEntityAsync(newInventoryObject);
         }
 
         public async Task<BaseResponse<bool>> DeleteInventoryObject(Guid inventoryObjectId, Guid accountId)
         {
-            var privacyCheck = await _privacyCheckerService.PrivacyCheckInventoryObject(inventoryObjectId, accountId);
+            var privacyCheck = await _privacyCheckerService.PrivacyCheckModifyInventoryObject(inventoryObjectId, accountId);
             if (privacyCheck.InnerStatusCode == InnerStatusCode.AccountAuthenticate)
             {
                 var deleted = await DeleteEntityAsync(x => x.Id == inventoryObjectId);
@@ -51,7 +72,7 @@ namespace InventoryManager.BLL.Services
 
         public async Task<BaseResponse<InventoryObject>> UpdateInventoryObjectTitle(Guid inventoryObjectId, Guid accountId, string newTitle)
         {
-            var privacyCheck = await _privacyCheckerService.PrivacyCheckInventoryObject(inventoryObjectId, accountId);
+            var privacyCheck = await _privacyCheckerService.PrivacyCheckModifyInventoryObject(inventoryObjectId, accountId);
             if (privacyCheck.InnerStatusCode == InnerStatusCode.AccountAuthenticate)
             {
                 var updated = await UpdateEntityAsync(x => x.Id == inventoryObjectId, x => x.SetProperty(e => e.Title, newTitle));
