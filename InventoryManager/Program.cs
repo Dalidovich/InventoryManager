@@ -52,6 +52,7 @@ namespace InventoryManager
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseMiddleware<ValidatorAccountMiddleware>();
             app.MapControllers();
 
             app.MapHub<InventoryHub>("/InventoryHub");
