@@ -8,7 +8,7 @@ namespace InventoryManager.BLL.Interfaces
     {
         public Task<BaseResponse<TEntity>> CreateEntityAsync(TEntity entity);
         public Task<BaseResponse<bool>> DeleteEntityAsync(Expression<Func<TEntity, bool>> expression);
-        public Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty);
+        public Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty, DateTime timestamp);
         public Task<BaseResponse<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> expression);
         public Task<BaseResponse<IEnumerable<TEntity>>> GetEntitiesAsync(Expression<Func<TEntity, bool>> expression);
         public Task<BaseResponse<TEntity>> ReadEntityAsync(Expression<Func<TEntity, bool>> expression);

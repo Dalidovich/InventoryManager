@@ -45,6 +45,7 @@ namespace InventoryManager
 
             webApplicationBuilder.Services.AddScoped<IRegistrationService, RegistrationService>();
             webApplicationBuilder.Services.AddScoped<ITokenService, TokenService>();
+            webApplicationBuilder.Services.AddScoped<IPrivacyCheckerService, PrivacyCheckerService>();
         }
 
         public static void AddAuthPolicy(this WebApplicationBuilder webApplicationBuilder)

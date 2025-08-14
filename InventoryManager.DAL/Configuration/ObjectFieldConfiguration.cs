@@ -45,9 +45,19 @@ namespace InventoryManager.DAL.Configuration
                    .HasColumnType(EntityDataTypes.Guid)
                    .HasColumnName("fk_inventory_object_id");
 
+            builder.Property(e => e.MasterFieldId)
+                   .HasColumnType(EntityDataTypes.Guid)
+                   .HasColumnName("fk_master_object_field_id");
+
             builder.HasOne(e => e.Creator)
                 .WithMany()
                 .HasForeignKey(e => e.CreatorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.MasterField)
+                .WithMany()
+                .HasForeignKey(e => e.MasterFieldId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

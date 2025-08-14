@@ -7,10 +7,12 @@ namespace InventoryManager.Domain.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public bool Visible { get; set; }
+        public Guid? MasterFieldId { get; set; }
 
         public string Content { get; set; }
         public ObjectFieldType Type { get; set; }
 
         public virtual Account? Creator { get; set; }
+        public virtual ObjectField? MasterField { get; set; }
     }
 }

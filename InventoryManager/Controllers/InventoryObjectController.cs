@@ -48,9 +48,9 @@ namespace InventoryManager.Controllers
 
         [Authorize(Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{inventoryObjectId}")]
-        public async Task<IActionResult> UpdateInventoryObjectTitle([FromRoute] Guid inventoryObjectId, [FromQuery] Guid accountId, [FromQuery] string newTitle)
+        public async Task<IActionResult> UpdateInventoryObjectTitle([FromRoute] Guid inventoryObjectId, [FromQuery] Guid accountId, [FromQuery] string newTitle, [FromQuery] DateTime timestamp)
         {
-            var resourse = await _inventoryObjectService.UpdateInventoryObjectTitle(inventoryObjectId, accountId, newTitle);
+            var resourse = await _inventoryObjectService.UpdateInventoryObjectTitle(inventoryObjectId, accountId, newTitle, timestamp);
 
             return resourse.ToActionResult();
         }

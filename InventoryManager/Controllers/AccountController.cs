@@ -38,18 +38,18 @@ namespace InventoryManager.Controllers
 
         [Authorize(Roles = "Admin", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{id}/role")]
-        public async Task<IActionResult> UpdateRole([FromRoute] Guid id, [FromQuery] AccountRole newRole)
+        public async Task<IActionResult> UpdateRole([FromRoute] Guid id, [FromQuery] AccountRole newRole, [FromQuery] DateTime timestamp)
         {
-            var resourse = await _accountService.UpdateEntityAsync(x => x.Id == id, x => x.SetProperty(x => x.Role, newRole));
+            var resourse = await _accountService.UpdateEntityAsync(x => x.Id == id, x => x.SetProperty(x => x.Role, newRole), timestamp);
 
             return resourse.ToActionResult();
         }
 
         [Authorize(Roles = "Admin", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromQuery] AccountStatus newStatus)
+        public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromQuery] AccountStatus newStatus, [FromQuery] DateTime timestamp)
         {
-            var resourse = await _accountService.UpdateEntityAsync(x => x.Id == id, x => x.SetProperty(x => x.Status, newStatus));
+            var resourse = await _accountService.UpdateEntityAsync(x => x.Id == id, x => x.SetProperty(x => x.Status, newStatus), timestamp);
 
             return resourse.ToActionResult();
         }

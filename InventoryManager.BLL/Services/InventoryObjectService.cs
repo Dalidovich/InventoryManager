@@ -70,12 +70,12 @@ namespace InventoryManager.BLL.Services
             return privacyCheck;
         }
 
-        public async Task<BaseResponse<InventoryObject>> UpdateInventoryObjectTitle(Guid inventoryObjectId, Guid accountId, string newTitle)
+        public async Task<BaseResponse<InventoryObject>> UpdateInventoryObjectTitle(Guid inventoryObjectId, Guid accountId, string newTitle, DateTime timestamp)
         {
             var privacyCheck = await _privacyCheckerService.PrivacyCheckModifyInventoryObject(inventoryObjectId, accountId);
             if (privacyCheck.InnerStatusCode == InnerStatusCode.AccountAuthenticate)
             {
-                var updated = await UpdateEntityAsync(x => x.Id == inventoryObjectId, x => x.SetProperty(e => e.Title, newTitle));
+                var updated = await UpdateEntityAsync(x => x.Id == inventoryObjectId, x => x.SetProperty(e => e.Title, newTitle), timestamp);
                 var inventoryObjectI = await ReadEntityAsync(x => x.Id == inventoryObjectId);
 
                 return new StandardResponse<InventoryObject>()

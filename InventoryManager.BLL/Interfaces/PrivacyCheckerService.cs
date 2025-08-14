@@ -12,6 +12,5 @@ namespace InventoryManager.BLL.Interfaces
         public Task<BaseResponse<bool>> IsAccessToInventory(Guid inventoryId, Guid accountId);
         public Task<BaseResponse<bool>> PrivacyCheckInventory(Guid inventoryId, Guid accountId);
         public Task<BaseResponse<bool>> PrivacyCheckModifyInventoryObject(Guid inventoryObjectId, Guid accountId);
-
     }
 }

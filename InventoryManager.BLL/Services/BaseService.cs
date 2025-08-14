@@ -132,7 +132,7 @@ namespace InventoryManager.BLL.Services
             };
         }
 
-        public async Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty)
+        public async Task<BaseResponse<int>> UpdateEntityAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> setProperty, DateTime timestamp)
         {
             var entities = await _repository.ReadOneWhereAsync(whereExpression);
             if (entities == null)
@@ -144,7 +144,7 @@ namespace InventoryManager.BLL.Services
                 };
             }
 
-            Expression<Func<TEntity, bool>> checkPositiveBlock = a => a.Timestamp == entities.Timestamp;
+            Expression<Func<TEntity, bool>> checkPositiveBlock = a => a.Timestamp == timestamp;
             Expression<Func<TEntity, bool>> combinedWhere = whereExpression.And(checkPositiveBlock);
 
             Expression<Func<SetPropertyCalls<TEntity>, SetPropertyCalls<TEntity>>> updateTimestamp = a => a.SetProperty(x => x.Timestamp, DateTime.UtcNow);

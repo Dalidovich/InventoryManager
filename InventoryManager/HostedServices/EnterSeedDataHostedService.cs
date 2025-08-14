@@ -19,7 +19,7 @@ namespace InventoryManager.HostedServices
             using var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDBContext>();
             var categoryService = scope.ServiceProvider.GetRequiredService<IService<InventoryCategory>>();
-            if (!await context.InventoryCategorys.AnyAsync())
+            if (!await context.InventoryCategories.AnyAsync())
             {
                 var category0 = (await categoryService.CreateEntityAsync(new InventoryCategory() { Name = "Offic" })).Data;
                 var category1 = (await categoryService.CreateEntityAsync(new InventoryCategory() { Name = "Kitchen" })).Data;

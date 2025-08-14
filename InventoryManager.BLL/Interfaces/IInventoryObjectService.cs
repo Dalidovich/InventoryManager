@@ -8,6 +8,6 @@ namespace InventoryManager.BLL.Interfaces
     {
         public Task<BaseResponse<InventoryObject>> CreateInventoryObject(InventoryObjectDTO inventoryObjectDTO);
         public Task<BaseResponse<bool>> DeleteInventoryObject(Guid inventoryObjectId, Guid accountId);
-        public Task<BaseResponse<InventoryObject>> UpdateInventoryObjectTitle(Guid inventoryObjectId, Guid accountId, string newTitle);
+        public Task<BaseResponse<InventoryObject>> UpdateInventoryObjectTitle(Guid inventoryObjectId, Guid accountId, string newTitle, DateTime timestamp);
     }
 }

@@ -12,13 +12,14 @@ namespace InventoryManager
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(
+                builder.Configuration.GetConnectionString(StandardConst.NameConnection)));
+
             builder.AddRepositores();
             builder.AddServices();
             builder.AddHostedService();
             builder.AddAuthPolicy();
             builder.AddJWT();
-            builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(
-                builder.Configuration.GetConnectionString(StandardConst.NameConnection)));
 
             builder.Services.AddSignalR();
 

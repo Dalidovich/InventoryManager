@@ -57,16 +57,16 @@ namespace InventoryManager.Controllers
 
         [Authorize(Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{inventoryId}")]
-        public async Task<IActionResult> UpdateNewState([FromRoute] Guid inventoryId, [FromQuery] InventoryState newInventoryState)
+        public async Task<IActionResult> UpdateNewState([FromRoute] Guid inventoryId, [FromQuery] InventoryState newInventoryState, [FromQuery] DateTime timestamp)
         {
             var accountId = Guid.Parse(HttpContext.User.FindFirst(CustomClaimType.AccountId)?.Value);
-            var resourse = await _inventoryService.UpdateInventoryState(inventoryId, accountId, newInventoryState);
+            var resourse = await _inventoryService.UpdateInventoryState(inventoryId, accountId, newInventoryState, timestamp);
 
             return resourse.ToActionResult();
         }
 
         [Authorize(Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
-        [HttpPut("{inventoryId}")]
+        [HttpDelete("{inventoryId}")]
         public async Task<IActionResult> Delete([FromRoute] Guid inventoryId)
         {
             var accountId = Guid.Parse(HttpContext.User.FindFirst(CustomClaimType.AccountId)?.Value);

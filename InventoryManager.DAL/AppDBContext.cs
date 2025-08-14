@@ -9,8 +9,8 @@ namespace InventoryManager.DAL
         public DbSet<AccessAccountToInventory> AccessAccountToInventorys { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Inventory> Inventorys { get; set; }
-        public DbSet<InventoryCategory> InventoryCategorys { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<InventoryCategory> InventoryCategories { get; set; }
         public DbSet<InventoryObject> InventoryObjects { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<ObjectField> ObjectFields { get; set; }
@@ -21,13 +21,17 @@ namespace InventoryManager.DAL
         {
         }
 
-        public AppDBContext()
+        public AppDBContext() : base()
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql("Server=localhost;Database=InventoryManager;Port=5432;User Id=postgres;Password=pg");
+            }
             optionsBuilder.UseLazyLoadingProxies();
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
@@ -46,8 +50,8 @@ namespace InventoryManager.DAL
                 Type t when t == typeof(AccessAccountToInventory) => (DbSet<T>)(object)AccessAccountToInventorys,
                 Type t when t == typeof(Account) => (DbSet<T>)(object)Accounts,
                 Type t when t == typeof(Comment) => (DbSet<T>)(object)Comments,
-                Type t when t == typeof(Inventory) => (DbSet<T>)(object)Inventorys,
-                Type t when t == typeof(InventoryCategory) => (DbSet<T>)(object)InventoryCategorys,
+                Type t when t == typeof(Inventory) => (DbSet<T>)(object)Inventories,
+                Type t when t == typeof(InventoryCategory) => (DbSet<T>)(object)InventoryCategories,
                 Type t when t == typeof(InventoryObject) => (DbSet<T>)(object)InventoryObjects,
                 Type t when t == typeof(Like) => (DbSet<T>)(object)Likes,
                 Type t when t == typeof(ObjectField) => (DbSet<T>)(object)ObjectFields,
