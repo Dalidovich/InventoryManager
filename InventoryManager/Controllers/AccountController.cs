@@ -2,6 +2,7 @@ using InventoryManager.AuthPolicy;
 using InventoryManager.BLL.Interfaces;
 using InventoryManager.Domain.Entities;
 using InventoryManager.Domain.Enums;
+using InventoryManager.Domain.InnerResponse;
 using InventoryManager.Extension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,15 +20,26 @@ namespace InventoryManager.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [Authorize(Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
+        [HttpGet("search/{searchField}")]
+        public async Task<IActionResult> Get([FromRoute] string searchField, [FromQuery] string? searchParametr)
         {
-            var resourse = await _accountService.ReadEntitiesAsync(x => x.Id != null);
-
-            return resourse.ToActionResult();
+            BaseResponse<IEnumerable<Account>> resourse;
+            switch (searchParametr)
+            {
+                case "login":
+                    resourse = await _accountService.ReadOrderedEntitiesAsync(x => x.Login.StartsWith(searchParametr), x => x.Login);
+                    return resourse.ToActionResult();
+                case "email":
+                    resourse = await _accountService.ReadOrderedEntitiesAsync(x => x.Email.StartsWith(searchParametr), x => x.Email);
+                    return resourse.ToActionResult();
+                default:
+                    resourse = await _accountService.ReadOrderedEntitiesAsync(x => x.Id != null, x => x.Login);
+                    return resourse.ToActionResult();
+            }
         }
 
-        [Authorize(Roles = "Admin", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
+        [Authorize(Roles = "1", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
@@ -36,7 +48,7 @@ namespace InventoryManager.Controllers
             return resourse.ToActionResult();
         }
 
-        [Authorize(Roles = "Admin", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
+        [Authorize(Roles = "1", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{id}/role")]
         public async Task<IActionResult> UpdateRole([FromRoute] Guid id, [FromQuery] AccountRole newRole, [FromQuery] DateTime timestamp)
         {
@@ -45,7 +57,7 @@ namespace InventoryManager.Controllers
             return resourse.ToActionResult();
         }
 
-        [Authorize(Roles = "Admin", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
+        [Authorize(Roles = "1", Policy = AuthPolicyName.ActiveStatusPolicyRequire)]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromQuery] AccountStatus newStatus, [FromQuery] DateTime timestamp)
         {
